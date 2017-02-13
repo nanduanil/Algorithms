@@ -7,15 +7,20 @@ Created on Sat Feb 11 20:53:43 2017
 #%%
 
 #countOfInverse = 0
-def FindInv():
-    intFile = open("IntegerArray.txt")
+def FindInv(file):
+    intFile = open(file)
     intList = intFile.read().splitlines()
+    print(len(intList))
     countOfInverse = 0
     intList.append(countOfInverse)
         #input[i:i+n] for i in range(0, len(input), n)
     intList = recurseFindInversion(intList)
     print("Count of inverse:",intList.pop(-1))
-    print("Sorted List:",intList)
+    outfile = open("blah.txt",'w')
+    print(len(intList))
+    for line in intList:
+        outfile.write(line + "\n")
+    #print("Sorted List:",intList)
     intFile.close()
     
     
@@ -39,22 +44,22 @@ def recurseFindInversion(intList):
             intList2 = recurseFindInversion(intList2)
         
         countOfInverse = intList2.pop(-1)
-        intList = []
+        intListSorted = []
         
         while (len(intList1) > 0 and len(intList2) > 0):
-            if(intList1[0] >= intList2[0]):
-                intList.append(intList1.pop(0))
-            elif(intList1[0] < intList2[0]):
-                intList.append(intList2.pop(0))
+            if(int(intList1[0]) <= int(intList2[0])):
+                intListSorted.append(intList1.pop(0))
+            elif(int(intList1[0]) > int(intList2[0])):
+                intListSorted.append(intList2.pop(0))
                 countOfInverse = countOfInverse + len(intList1)
             
         if(len(intList1) > 0):
-            intList.extend(intList1)
+            intListSorted.extend(intList1)
         if(len(intList2) > 0):
-            intList.extend(intList2)
+            intListSorted.extend(intList2)
             
-        intList.append(countOfInverse)
-        return intList
+        intListSorted.append(countOfInverse)
+        return intListSorted
         
     else:
         intList.append(countOfInverse)
