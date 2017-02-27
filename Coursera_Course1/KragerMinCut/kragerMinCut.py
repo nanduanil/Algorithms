@@ -6,23 +6,9 @@ Created on Thu Feb 23 20:48:57 2017
 """
 #%%
 import random
-inputGraph = open("kargerMinCut.txt")
-
-graphDict = {}
-for stringRow in inputGraph.read().splitlines():
-    graphRow = [str(i) for i in stringRow.split()]
-    graphDict[graphRow[0]] = graphRow[1:]
-
-
-
-graphDict = minCut(graphDict)
-
-#%%
-    
-
-import random
 def minCut(graphDict):
 
+    random.seed()
     while (len(graphDict.keys()) > 2):
         firstNodeKey = random.choice(list(graphDict.keys()))
         secondNodeKey = random.choice(graphDict[firstNodeKey])
@@ -49,4 +35,46 @@ def minCut(graphDict):
             graphDict[updateAdj] = updateAdjList
         
     return graphDict
+#%%
+import random
+import copy
+import time
+inputGraph = open("kargerMinCut.txt")
+
+graphDictOrig = {}
+graphDictIterationInput = {}
+graphDictIterationOutput = {}
+graphDictIterationMinOutput = {}
+
+for stringRow in inputGraph.read().splitlines():
+    graphRow = [str(i) for i in stringRow.split()]
+    graphDictOrig[graphRow[0]] = graphRow[1:]
+
+graphDictIterationInput = copy.deepcopy(graphDictOrig)
+
+graphDictIterationOutput = minCut(graphDictIterationInput)
+keysOutput = list(graphDictIterationOutput.keys())
+minimumCut = len(graphDictIterationOutput[keysOutput[0]])
+#uncomment all 'graphDictIterationMinOutput' lines to get the split which has the minimum cut
+#graphDictIterationMinOutput = copy.deepcopy(graphDictIterationOutput)
+n = len(graphDictOrig)
+start = time.time()
+for i in range(0,20):
+    graphDictIterationInput = {}
+    graphDictIterationOutput = {}
+    graphDictIterationInput = copy.deepcopy(graphDictOrig)
+    graphDictIterationOutput = minCut(graphDictIterationInput)
+    keysOutput = list(graphDictIterationOutput.keys())
+    if(minimumCut > len(graphDictIterationOutput[keysOutput[0]])):
+        minimumCut = len(graphDictIterationOutput[keysOutput[0]])
+        #graphDictIterationMinOutput = {}
+        #graphDictIterationMinOutput = copy.deepcopy(graphDictIterationOutput)
+    
+end = time.time()
+print("time taken:",end-start)
+print("minimum Cut: ", minimumCut)
+#%%
+    
+
+
          
