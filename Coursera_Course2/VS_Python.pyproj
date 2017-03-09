@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0b7e4c41-aa1d-45ce-8e2a-a5ee4da0e758}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>BFS.py</StartupFile>
+    <StartupFile>DFS.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -22,7 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BFS.py" />
-    <Compile Include="DFS.py" />
+    <Compile Include="DFS.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="StronglyConnectedComponent\SCC.txt" />
