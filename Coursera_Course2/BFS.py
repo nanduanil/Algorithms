@@ -10,21 +10,29 @@ graph = graph in adjacency list format
 startNode = Node from which to start BFS. 
             This will be the row number of the node in the graph list.
 workerQueue = this needs to be FIFO; using deque type
+output : all the explored nodes
 """
 
 #%%
 import collections
 def BFS(graph,startNode):
-    explored = [False]*len(graph)
-    workerQueue = collections.deque(startNode)
+    explored = {}
+    workerQueue = collections.deque()
+    workerQueue.append(startNode)
+    explored[startNode] = True
     while(len(workerQueue) > 0):
         currentNode = workerQueue.popleft()
-        explored[currentNode] = True 
+        if(currentNode not in graph):
+            continue
         for node in graph[currentNode]:
-            if(explored[node] == False):
-                explored[node] = True 
-                workerQueue.append(node)  
+            if(node not in explored): 
+                explored[node] = True
+                workerQueue.append(node)         
+    return explored  
 
+graph = {1: [2, 3], 2: [4], 3: [6], 4: [6, 5, 3], 6: [7], 7: [5], 8: [9]}
+"""
+#use this code if taking input from file
 graph = {}
 with open("bfs_input1.txt") as inFile:
     for line in inFile:
@@ -32,10 +40,22 @@ with open("bfs_input1.txt") as inFile:
         fromNode = nodeData[0]
         toNode = nodeData[1]
         if(fromNode in graph):
+            #assuming here that the input data does not contain repetition
             graph[fromNode].append(toNode)
         else:
+            #create new entry in dictionary
             graph[fromNode] = [toNode]
-print(graph) 
+#end file input
+"""
+
+print(graph)
+startNode = int(input("Enter start node: "))
+
+print("-- Nodes Explored --")
+for k in BFS(graph,startNode).keys():
+    print(k)
+
+ 
 
 
 
