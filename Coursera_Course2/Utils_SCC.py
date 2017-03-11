@@ -1,6 +1,8 @@
 
-
 def ReadFileToDict(fileName,isRev):
+    """
+    Read the graph data from file into a dictionary
+    """
     graph = {}
     with open(fileName) as inFile:
         for line in inFile:
@@ -19,6 +21,9 @@ def ReadFileToDict(fileName,isRev):
     return graph
 
 def ReadFileToDictRev(fileName,isRev):
+    """
+    Read the graph data from file into a dictionary in reverse order.
+    """
     graph = {}
     with open(fileName) as inFile:
         for line in inFile:
@@ -36,6 +41,10 @@ def ReadFileToDictRev(fileName,isRev):
                 graph[toNode] = []
     return graph
 
+"""
+This function finds all nodes findable from the node provided.
+Also identifies the running time order.
+"""
 def DFS_Recursive(graph,currentNode,explored_global,currentNodeTime):
     explored_global[currentNode] = None
     print(currentNode)
@@ -47,6 +56,10 @@ def DFS_Recursive(graph,currentNode,explored_global,currentNodeTime):
     return
 
 import collections
+"""
+This function finds all nodes findable from the node provided.
+Also identifies the running time order.
+"""
 def DFS_RunningTime_Iterative(graph,startNode,explored_global,currentNodeTime):
     popped = {}
     workerQueue = collections.deque()
@@ -66,6 +79,10 @@ def DFS_RunningTime_Iterative(graph,startNode,explored_global,currentNodeTime):
                 explored_global[node] = None
                 workerQueue.append(node)
 
+"""
+This function finds all nodes findable from the node provided.
+It returns the nodes found.
+"""
 def DFS_SCC_Iterative(graph,startNode,explored_global):
     popped = {}
     workerQueue = collections.deque()
