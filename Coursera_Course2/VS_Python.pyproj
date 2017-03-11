@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0b7e4c41-aa1d-45ce-8e2a-a5ee4da0e758}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>DFS.py</StartupFile>
+    <StartupFile>SCC.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -23,6 +23,12 @@
   <ItemGroup>
     <Compile Include="BFS.py" />
     <Compile Include="DFS.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SCC.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utils_SCC.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
