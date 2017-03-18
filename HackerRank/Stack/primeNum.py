@@ -6,14 +6,14 @@ Prime Number using Sieve Of Eratosthenes
 """
 #%%
 def findPrime_SOE(upperLimit):
-    if(upperLimit < 2):
-        return []
     primes = [2,3]
     primesToCheck = []
     possiblePrimes = {}
-    if(upperLimit < 5):
-        return primes
-    for i in range(5,upperLimit,2):
+    if(upperLimit < 2): return []
+    if(upperLimit = 2): return [2]
+    if(upperLimit < 5): return primes
+    
+    for i in range(5,upperLimit+1,2):
         if(i%3 == 0):
             continue
         possiblePrimes[i] = True
@@ -27,4 +27,31 @@ def findPrime_SOE(upperLimit):
                     possiblePrimes[k] = False
     return primes
 
-#findPrime_SOE(10)
+#==============================================================================
+##time analysis
+# import time
+# startTime = time.time()
+# num = 100000
+# p1 = findPrime_SOE(num)
+# endTime = time.time()
+# print(num,":",endTime-startTime)
+# 
+# startTime = time.time()
+# num = 1000000
+# p1 = findPrime_SOE(num)
+# endTime = time.time()
+# print(num,":",endTime-startTime)
+# 
+# startTime = time.time()
+# num = 10000000
+# p1 = findPrime_SOE(num)
+# endTime = time.time()
+# print(num,":",endTime-startTime)
+# 
+# startTime = time.time()
+# num = 100000000
+# p1 = findPrime_SOE(num)
+# endTime = time.time()
+# print(num,":",endTime-startTime)
+# 
+#==============================================================================
