@@ -10,7 +10,7 @@ def findPrime_SOE(upperLimit):
     primesToCheck = []
     possiblePrimes = {}
     if(upperLimit < 2): return []
-    if(upperLimit = 2): return [2]
+    if(upperLimit == 2): return [2]
     if(upperLimit < 5): return primes
     
     for i in range(5,upperLimit+1,2):
