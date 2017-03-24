@@ -5,96 +5,76 @@ https://www.hackerrank.com/challenges/dijkstrashortreach
 @author: nanil
 """
 #==============================================================================
+# #This section is to read input from file
 # from heapq import heappush, heappop
 # import itertools
-# inArray = [line.rstrip('\n') for line in open('C:\\Users\\nandu\\Desktop\\Algorithms\\HackerRank\\Algo\\dijk_shortestReach\\dijk_in01.txt')]
+# import time
+# #inArray = [line.rstrip('\n') for line in open('dijk_in07.txt')]
+# inArray = [line.rstrip('\n') for line in open('dijk_in01.txt')]
 # testCases = int(inArray[0])
 # line = 1
+# startTime = time.time()
 # for t in range(0,testCases):
 #     counter = itertools.count()
 #     command = [int(x) for x in inArray[line].strip().split()]
 #     line = line + 1
 #     numberOfNodes = command[0]
-#     graph = {}
+#     graph = [dict() for i in range(0, numberOfNodes+1)]
 #     for c in range(0,command[1]):
-#         nodeData = [int(y) for y in inArray[line].strip().split()]
+#         (fromNode,toNode,weight) = [int(y) for y in inArray[line].strip().split()]
 #         line = line + 1
-#         fromNode = nodeData[0]
-#         toNode = nodeData[1]
-#         weight = nodeData[2]
-#         if(fromNode not in graph):
-#             graph[fromNode] = []
-#         if(toNode not in graph):
-#             graph[toNode] = []
-#         graph[fromNode].append([toNode,weight])
-#         graph[toNode].append([fromNode,weight])
-#     nextNode = int(inArray[line])
+#         weight = weight if toNode not in graph[fromNode] else min(weight, graph[toNode][fromNode])
+#         graph[fromNode][toNode] = weight
+#         graph[toNode][fromNode] = weight
+#     startNode = int(inArray[line])
 #     line = line + 1  
+#     print(time.time()-startTime)
 #==============================================================================
 from heapq import heappush, heappop
 import itertools
+import sys
 testCases = int(input())
 
 for t in range(0,testCases):
     counter = itertools.count()
     command = [int(x) for x in input().strip().split()]
     numberOfNodes = command[0]
-    graph = {}
-    for c in range(0,command[1]):
-        nodeData = [int(y) for y in input().strip().split()]
-        fromNode = nodeData[0]
-        toNode = nodeData[1]
-        weight = nodeData[2]
-        if(fromNode not in graph):
-            graph[fromNode] = []
-        if(toNode not in graph):
-            graph[toNode] = []
-        graph[fromNode].append([toNode,weight])
-        graph[toNode].append([fromNode,weight])
-    nextNode = int(input())
+    graph = [dict() for i in range(0, numberOfNodes+1)]
 
-    startNode = nextNode    
-    removed = "REMOVED"
+    for c in range(0,command[1]):
+        (fromNode,toNode,weight) = [int(y) for y in sys.stdin.readline().split(' ')]
+        #store only the minimum edge between two nodes
+        weight = weight if toNode not in graph[fromNode] else min(weight, graph[toNode][fromNode])
+        graph[fromNode][toNode] = weight
+        graph[toNode][fromNode] = weight
+    startNode = int(input())
+    
     crossHeap = []
-    presentInHeap = {}
-    explored = {}
-    explored[nextNode] = 0
-    for i in range(0,numberOfNodes):
-        if(nextNode == -1): break
-        currentDistance = explored[nextNode]
-        for nodeData in graph[nextNode]:
-            toNode = nodeData[0]
-            distance = currentDistance+nodeData[1]
-            if(toNode not in explored):
+    explored = [-1] * (numberOfNodes+1) #this will contain distance of nodes
+    heappush(crossHeap, [0,next(counter),startNode])
+    
+    #run until there are edges from explored to unexplored
+    while(len(crossHeap) > 0):
+
+        (smallestDistance,counterData,nextNode) = heappop(crossHeap)
+        #if the minimum one selected has already been explored, continue
+        if(explored[nextNode] > -1):
+            continue
+        
+        explored[nextNode] = smallestDistance
+        
+        #update the adjacent nodes to the ones explored, which are yet to be explored
+        for toNode in graph[nextNode]:
+            if(explored[toNode] == -1):
+                distance = explored[nextNode] + graph[nextNode][toNode]
                 newEntry = [distance,next(counter),toNode]
-                if(toNode not in presentInHeap):
-                    heappush(crossHeap,newEntry)
-                    presentInHeap[toNode] = newEntry
-                else:
-                    if(presentInHeap[toNode][0] > distance):
-                        presentInHeap[toNode][2] = removed
-                        heappush(crossHeap,newEntry)
-                        presentInHeap[toNode] = newEntry
-        del graph[nextNode]
-        if(len(crossHeap) == 0): break
-        nextNode = -1
-        while(True):
-            if(len(crossHeap) == 0): break
-            nextEntry = heappop(crossHeap)
-            if(nextEntry[2] != removed):
-                nextNode = nextEntry[2]
-                explored[nextNode] = nextEntry[0]
-                del presentInHeap[nextEntry[2]]
-                break
+                heappush(crossHeap,newEntry)
             
     for i in range(1,numberOfNodes+1):
-        if(i==startNode):continue
-        if(i in explored):
+        if(i != startNode):
             print(explored[i],end=" ")
-        else:
-            print(-1,end=" ")
     print("")
             
-            
+#print(time.time()-startTime)
 
                 
